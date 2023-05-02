@@ -14,7 +14,7 @@ protocol Printable {
     func printDirection()
 }
 
-enum Direction: String {
+enum Direction: String { // Int, String
     case left = "Left"
     case up = "Up"
     case down = "Down"
@@ -161,3 +161,66 @@ let f = FileNode.file(name: "f.txt")
 let folder = FileNode.folder(name: "games", files: [f])
 
 print(folder)
+
+struct Tag: Equatable {
+    var string: String
+}
+
+struct Point2D: Equatable {
+    var x: Int
+    var y: Int
+}
+
+extension Point2D: CustomStringConvertible {
+    var description: String {
+        "Point(\(x),\(y))"
+    }
+}
+
+extension Point2D: ExpressibleByStringLiteral {
+    init(stringLiteral value: String) {
+        let result = value.split(separator: ",")
+        if result.count > 0 {
+            x = Int(result[0]) ?? 0
+        } else {
+            x = 0
+        }
+        
+        if result.count > 1 {
+            y = Int(result[1]) ?? 0
+        } else {
+            y = 0
+        }
+    }
+}
+
+extension Tag: ExpressibleByStringLiteral {
+    init(stringLiteral value: String) {
+        string = value
+    }
+}
+
+enum Category: Tag {
+    case articles = "article"
+    case videos = "video"
+    case recommended
+}
+
+
+enum Special2DPoints: Point2D {
+    case one = "1,1"
+    case origin = "0,0"
+}
+
+extension Special2DPoints: CustomStringConvertible {
+    var description: String {
+        rawValue.description
+    }
+}
+
+
+var c: Category = .videos
+print("C = \(c.rawValue)")
+
+var p: Special2DPoints = .one
+print(" P = \(p)")
