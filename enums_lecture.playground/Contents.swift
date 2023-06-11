@@ -224,3 +224,28 @@ print("C = \(c.rawValue)")
 
 var p: Special2DPoints = .one
 print(" P = \(p)")
+
+struct Size {
+    let width: Double
+    let height: Double
+}
+
+extension Size: ExpressibleByStringLiteral, Equatable {
+    public init(stringLiteral value: String) {
+        let components = value.split(separator: ",")
+        if components.count == 2,
+            let width = Double(components[0]),
+           let height = Double(components[1]) {
+            self.init(width: width, height: height)
+        } else {
+            self.init(width: 0, height: 0)
+        }
+    }
+}
+
+enum Devices: Size {
+   case iPhone3GS = "320,480"
+   case iPhone5 = "320,568"
+   case iPhone6 = "375,667"
+   case iPhone6Plus = "414,736"
+}
